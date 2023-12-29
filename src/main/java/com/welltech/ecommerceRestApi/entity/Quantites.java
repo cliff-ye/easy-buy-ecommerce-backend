@@ -1,9 +1,15 @@
 package com.welltech.ecommerceRestApi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "quantities")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Quantites {
 
     @Id

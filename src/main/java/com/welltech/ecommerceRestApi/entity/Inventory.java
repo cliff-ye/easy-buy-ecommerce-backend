@@ -1,10 +1,16 @@
 package com.welltech.ecommerceRestApi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 
 @Entity
 @Table(name="inventory")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Inventory {
 
     @Id

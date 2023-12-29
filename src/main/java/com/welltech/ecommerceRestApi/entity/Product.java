@@ -1,11 +1,17 @@
 package com.welltech.ecommerceRestApi.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
