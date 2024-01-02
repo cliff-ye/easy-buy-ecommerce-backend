@@ -1,5 +1,7 @@
 package com.welltech.ecommerceRestApi.controller;
 
+import com.welltech.ecommerceRestApi.dto.LoginDto;
+import com.welltech.ecommerceRestApi.dto.LoginResponse;
 import com.welltech.ecommerceRestApi.dto.RegisterUserDto;
 import com.welltech.ecommerceRestApi.services.serviceInter.UserService;
 import jakarta.validation.Valid;
@@ -24,5 +26,10 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterUserDto registerUserDto){
         return userService.createUser(registerUserDto);
+    }
+
+    @PostMapping("/login")
+    public LoginResponse loginUser(@Valid @RequestBody LoginDto loginDto){
+        return userService.login(loginDto);
     }
 }
