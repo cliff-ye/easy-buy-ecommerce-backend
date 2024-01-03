@@ -1,12 +1,14 @@
 package com.welltech.ecommerceRestApi.services.serviceImpl;
 
 import com.welltech.ecommerceRestApi.authConfig.JwtTokenProvider;
+import com.welltech.ecommerceRestApi.dto.LoggedInUserDto;
 import com.welltech.ecommerceRestApi.dto.LoginDto;
 import com.welltech.ecommerceRestApi.dto.LoginResponse;
 import com.welltech.ecommerceRestApi.dto.RegisterUserDto;
 import com.welltech.ecommerceRestApi.entity.EasyBuyUser;
 import com.welltech.ecommerceRestApi.entity.Role;
 import com.welltech.ecommerceRestApi.exception.UserExistException;
+import com.welltech.ecommerceRestApi.mapper.UserMapper;
 import com.welltech.ecommerceRestApi.repository.UserRepository;
 import com.welltech.ecommerceRestApi.services.serviceInter.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,18 +61,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponse login(LoginDto loginDto) {
+    public ResponseEntity<LoginResponse> login(LoginDto loginDto) {
         Authentication authentication = null;
         authentication = authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(loginDto.email(),loginDto.password()));
 
-
-        return LoginResponse.builder()
+        LoginResponse response = LoginResponse.builder()
                 .status(HttpStatus.OK.value())
                 .message("Login successful")
                 .token(jwtTokenProvider.generateToken(authentication))
                 .build();
 
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<LoggedInUserDto> getLoggedInUser(EasyBuyUser easyBuyUser) {
+
+        LoggedInUserDto mappedDto = UserMapper.mapEntitytoDto(easyBuyUser);
+
+        return ResponseEntity.ok(mappedDto);
     }
 
 }

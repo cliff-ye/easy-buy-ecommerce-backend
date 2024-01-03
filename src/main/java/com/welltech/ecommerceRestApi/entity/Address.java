@@ -81,4 +81,12 @@ public class Address {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public EasyBuyUser getUser() {
+        return user;
+    }
+
+    public void setUser(EasyBuyUser user) {
+        this.user = user;
+    }
 }

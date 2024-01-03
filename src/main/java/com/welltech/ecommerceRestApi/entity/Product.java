@@ -17,16 +17,15 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @Column(nullable = false)
+    private String name;
     @Column(nullable = false)
     private String shortDescription;
     private String longDescription;
     @Column(nullable = false)
     private BigDecimal price;
-
-    @OneToOne(mappedBy = "product",cascade = {CascadeType.REMOVE},orphanRemoval = true,optional = false)
-    private Inventory inventory;
-
+    @Column(nullable = false)
+    private int stockQuantity;
 
     public long getId() {
         return id;
@@ -56,15 +55,23 @@ public class Product {
         return price;
     }
 
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    public void setStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
     }
 }

@@ -3,6 +3,7 @@ package com.welltech.ecommerceRestApi.authConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -48,7 +49,11 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-        return http.csrf(csrf -> csrf.disable())
+        return http.authorizeHttpRequests(requests -> requests
+                                                             .requestMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
+                                                             .requestMatchers(HttpMethod.POST,"/api/v1/users/login").permitAll().anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
