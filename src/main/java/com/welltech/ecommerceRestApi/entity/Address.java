@@ -1,5 +1,6 @@
 package com.welltech.ecommerceRestApi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,7 +39,8 @@ public class Address {
     private String country;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private EasyBuyUser user;
 
 

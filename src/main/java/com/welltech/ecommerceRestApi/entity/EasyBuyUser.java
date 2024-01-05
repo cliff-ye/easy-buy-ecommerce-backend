@@ -1,6 +1,7 @@
 package com.welltech.ecommerceRestApi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,8 +31,8 @@ public class EasyBuyUser implements UserDetails {
     private String email;
     @Column(nullable = false,length = 1000)
     private String pass;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = {CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = {CascadeType.ALL})
+    @JsonManagedReference
     private List<Address> addresses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
@@ -56,6 +57,7 @@ public class EasyBuyUser implements UserDetails {
     public String getFirstName() {
         return firstName;
     }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

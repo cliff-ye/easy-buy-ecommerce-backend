@@ -30,6 +30,8 @@ public class Order {
     @ManyToOne(optional = false)
     @JoinColumn(name = "address_id",nullable = false)
     private Address address;
+    @OneToMany(mappedBy = "order",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -61,5 +63,13 @@ public class Order {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

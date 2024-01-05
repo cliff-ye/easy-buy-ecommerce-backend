@@ -4,6 +4,7 @@ import com.welltech.ecommerceRestApi.dto.LoggedInUserDto;
 import com.welltech.ecommerceRestApi.dto.LoginDto;
 import com.welltech.ecommerceRestApi.dto.LoginResponse;
 import com.welltech.ecommerceRestApi.dto.RegisterUserDto;
+import com.welltech.ecommerceRestApi.entity.Address;
 import com.welltech.ecommerceRestApi.entity.EasyBuyUser;
 import com.welltech.ecommerceRestApi.mapper.UserMapper;
 import com.welltech.ecommerceRestApi.services.serviceInter.UserService;
@@ -11,7 +12,10 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -34,8 +38,14 @@ public class UserController {
         return userService.login(loginDto);
     }
 
+//    @GetMapping
+//    public ResponseEntity<LoggedInUserDto> getLoggedInUser(@AuthenticationPrincipal EasyBuyUser easyBuyUser){
+//        return userService.getLoggedInUser(easyBuyUser);
+//    }
+
     @GetMapping
-    public ResponseEntity<LoggedInUserDto> getLoggedInUser(@AuthenticationPrincipal EasyBuyUser easyBuyUser){
-        return userService.getLoggedInUser(easyBuyUser);
+    @Transactional
+    public List<Address> getLoggedInUser2(@AuthenticationPrincipal EasyBuyUser easyBuyUser){
+        return easyBuyUser.getAddresses();
     }
 }

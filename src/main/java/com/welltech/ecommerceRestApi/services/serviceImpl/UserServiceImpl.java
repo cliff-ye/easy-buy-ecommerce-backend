@@ -1,10 +1,8 @@
 package com.welltech.ecommerceRestApi.services.serviceImpl;
 
 import com.welltech.ecommerceRestApi.authConfig.JwtTokenProvider;
-import com.welltech.ecommerceRestApi.dto.LoggedInUserDto;
-import com.welltech.ecommerceRestApi.dto.LoginDto;
-import com.welltech.ecommerceRestApi.dto.LoginResponse;
-import com.welltech.ecommerceRestApi.dto.RegisterUserDto;
+import com.welltech.ecommerceRestApi.dto.*;
+import com.welltech.ecommerceRestApi.entity.Address;
 import com.welltech.ecommerceRestApi.entity.EasyBuyUser;
 import com.welltech.ecommerceRestApi.entity.Role;
 import com.welltech.ecommerceRestApi.exception.UserExistException;
@@ -19,6 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -40,13 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<String> createUser(RegisterUserDto registerUserDto) {
-        EasyBuyUser newUser = EasyBuyUser.builder()
-                .email(registerUserDto.email())
-                .firstName(registerUserDto.firstName())
-                .lastName(registerUserDto.lastName())
-                .pass(passwordEncoder.encode(registerUserDto.password()))
-                .role(Role.valueOf("USER"))
-                .build();
 
         /**
          * check if user has an account already
@@ -54,6 +49,32 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsByEmail(registerUserDto.email())){
             throw new UserExistException("User already has an account");
         }
+
+
+        List<Address> addresses = registerUserDto.addressDto().stream()
+                                                                    .map(addressDto -> Address.builder()
+                                                                            .addressLine1(addressDto.addressLine1())
+                                                                            .addressLine2(addressDto.addressLine2())
+                                                                            .city(addressDto.city())
+                                                                            .country(addressDto.country())
+                                                                            .build())
+                                                                            .collect(Collectors.toList());
+
+        EasyBuyUser newUser = EasyBuyUser.builder()
+                .email(registerUserDto.email())
+                .firstName(registerUserDto.firstName())
+                .lastName(registerUserDto.lastName())
+                .pass(passwordEncoder.encode(registerUserDto.password()))
+                .role(Role.valueOf("USER"))
+                .addresses(addresses)
+                .build();
+
+
+        /**
+         * assign user id or reference to each address
+         */
+      addresses.forEach(address -> address.setUser(newUser));
+
 
         userRepository.save(newUser);
 
@@ -82,5 +103,13 @@ public class UserServiceImpl implements UserService {
 
         return ResponseEntity.ok(mappedDto);
     }
+
+//    @Override
+//    public ResponseEntity<List<AddressDto>> getLoggedInUserAddresses(EasyBuyUser easyBuyUser) {
+//
+//        List<AddressDto> mappedDto = UserMapper.mapEntitytoDto(easyBuyUser);
+//
+//        return ResponseEntity.ok(mappedDto);
+//    }
 
 }
