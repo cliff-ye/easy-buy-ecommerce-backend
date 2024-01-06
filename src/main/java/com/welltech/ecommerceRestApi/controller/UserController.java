@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -44,8 +45,7 @@ public class UserController {
 //    }
 
     @GetMapping
-    @Transactional
     public List<Address> getLoggedInUser2(@AuthenticationPrincipal EasyBuyUser easyBuyUser){
-        return easyBuyUser.getAddresses();
+        return easyBuyUser.getAddresses().stream().collect(Collectors.toList());
     }
 }

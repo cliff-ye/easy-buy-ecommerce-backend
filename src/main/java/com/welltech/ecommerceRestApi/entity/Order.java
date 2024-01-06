@@ -1,5 +1,6 @@
 package com.welltech.ecommerceRestApi.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,7 @@ public class Order {
     @JoinColumn(name = "address_id",nullable = false)
     private Address address;
     @OneToMany(mappedBy = "order",cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @JsonManagedReference
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public long getId() {

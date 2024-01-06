@@ -31,7 +31,7 @@ public class EasyBuyUser implements UserDetails {
     private String email;
     @Column(nullable = false,length = 1000)
     private String pass;
-    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Address> addresses = new ArrayList<>();
 
