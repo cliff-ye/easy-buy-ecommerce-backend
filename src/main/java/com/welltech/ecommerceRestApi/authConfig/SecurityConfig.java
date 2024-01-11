@@ -51,7 +51,9 @@ public class SecurityConfig {
 
         return http.authorizeHttpRequests(requests -> requests
                                                              .requestMatchers(HttpMethod.POST,"/api/v1/users").permitAll()
-                                                             .requestMatchers(HttpMethod.POST,"/api/v1/users/login").permitAll().anyRequest().authenticated()
+                                                             .requestMatchers(HttpMethod.POST,"/api/v1/users/login").permitAll()
+                                                             .requestMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())

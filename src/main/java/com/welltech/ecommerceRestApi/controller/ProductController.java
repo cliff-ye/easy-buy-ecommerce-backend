@@ -21,13 +21,13 @@ public class ProductController {
     public ProductController(ProductService productService){
         this.productService = productService;
     }
-//    @GetMapping
-//    public List<Product> getAllProducts(){
-//        return productService.getAllProducts();
-//    }
-
     @GetMapping
-    public Product getAllProduct(){
-        return productRepository.findById((long)2).get();
+    public List<Product> getAllProducts(){
+        return productService.getAllProducts();
     }
+
+//    @GetMapping
+//    public Product getAllProduct(){
+//        return productRepository.findById((long)2).get();
+//    }
 }
